@@ -14,14 +14,26 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 # from odds_news.news.views import NewsAPIView
+# from odds_news.news.views import NewsAPISimpleView
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from rest_framework import routers
 
-from news.views import news_view, NewsView, NewsAPIView
+from news.views import (
+    news_view, NewsView, NewsAPIView, 
+    NewsAPISimpleView,
+    NewsViewSet
+)
+
+# add this for model viewsets
+router = routers.DefaultRouter()
+router.register(r'newsx', NewsViewSet)
 
 urlpatterns = [
+    path('api/', include(router.urls)),
     path('admin/', admin.site.urls),
     path('news/', news_view),
     path('news1/', NewsView.as_view()),
     path('news-api/', NewsAPIView.as_view()),
+    path('news-simple-view', NewsAPISimpleView.as_view())
 ]
