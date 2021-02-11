@@ -13,13 +13,15 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+# from odds_news.news.views import NewsAPIView
 from django.contrib import admin
 from django.urls import path
 
-from news.views import news_view, NewsView
+from news.views import news_view, NewsView, NewsAPIView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('news/', news_view),
     path('news1/', NewsView.as_view()),
+    path('news-api/', NewsAPIView.as_view()),
 ]

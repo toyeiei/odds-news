@@ -2,9 +2,31 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from news.models import News
 from django.views import View
+import json
 
 # Create your views here.
 # function vs. class based views
+
+## API json
+class NewsAPIView(View):
+    def get(self, request):
+        news = News.objects.all()
+
+        data = []
+        for each in news:
+            item = {
+                'title': each.title,
+                'content': each.content,
+                'category': each.category.name
+            }
+            data.append(item)
+
+        return HttpResponse(
+            # '[{"title": "Hello"}, {"title": "Today"}]', 
+            # dump as string
+            json.dumps(data),
+            content_type='application/json'
+        )
 
 # extend django View
 class NewsView(View):
